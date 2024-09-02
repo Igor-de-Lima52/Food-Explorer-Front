@@ -16,6 +16,7 @@ export const Container = styled.div`
     margin: 2.4rem auto;
     padding-right: 1rem;
     border-radius: .8rem;
+    animation: opacity 1.5s;
     &::-webkit-scrollbar{
       width: 10px;
     }
@@ -33,6 +34,7 @@ export const Container = styled.div`
     padding: 1rem 0 0;
     width: 36.4rem;
     margin: 0 auto;
+    animation: opacity 1.5s;
   }
   .back{
     width: 7.4rem;
@@ -43,6 +45,7 @@ export const Container = styled.div`
     font-weight: 500;
     font-family: "Poppins", sans-serif;
     color: ${({ theme }) => theme.COLORS.LIGHT_300};
+    animation: opacity 1.5s;
     svg{
       font-size: 3.2rem;
     }
@@ -90,6 +93,11 @@ export const Container = styled.div`
     }
     .header{
       width: 112rem;
+    }
+  }
+  @keyframes opacity {
+    0%{
+      opacity: 0%;
     }
   }
 `;

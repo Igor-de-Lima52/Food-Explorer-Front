@@ -14,6 +14,7 @@ export const Container = styled.div`
     overflow-y: auto;
     width: 31.6rem;
     margin: 0 auto 2rem;
+    animation: opacity 1.5s;
     &::-webkit-scrollbar{
       width: 10px;
     }
@@ -26,7 +27,6 @@ export const Container = styled.div`
       width: 10px;
     }
   }
-  
   .back{
     width: 11.2rem;
     display: flex;
@@ -81,6 +81,11 @@ export const Container = styled.div`
     }
     .back{
       margin-bottom: 4.2rem;
+    }
+  }
+  @keyframes opacity {
+    0%{
+      opacity: 0%;
     }
   }
 `;

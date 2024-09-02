@@ -24,6 +24,7 @@ export function Details(){
   const [formattedPrice, setFormattedPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(formattedPrice);
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -67,10 +68,11 @@ export function Details(){
       setData(response.data);
       dishImageUrl = `${api.defaults.baseURL}/files/${response.data.image}`;
       setPrice(response.data.price);
+      setLoading(false);
     }
 
     fetchDish();
-  }, []);
+  }, [params.id]);
 
   return(
     <Container>
@@ -78,6 +80,9 @@ export function Details(){
       <Header onOpenMenu={() => setMenuIsOpen(true)}/>
 
       {
+        loading ? (
+          <div className="loading"></div>
+        ) : (
         data && 
         <main>
           <a onClick={handleBack} className="back"><FiChevronLeft/>voltar</a>
@@ -116,6 +121,7 @@ export function Details(){
             </div>
           </Dish>
         </main>
+        )
       }
       <Footer/>
     </Container> 

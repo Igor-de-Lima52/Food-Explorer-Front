@@ -26,6 +26,7 @@ export function Edit(){
   const [ingredients, setIngredients] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [dishFileImage, setDishFileImage] = useState(null);
 
@@ -120,6 +121,7 @@ export function Edit(){
       setDescription(response.data.description);
       setPrice(response.data.price);
       setDishFileImage(response.data.image);
+      setLoading(false);
     }
     fetchDish();
   }, []);
@@ -134,52 +136,56 @@ export function Edit(){
       </header>
 
       {
-        data &&
-        <main>
-        <Form>
-          <h2>Editar prato</h2>
-          <div className="info">
-            <div className="input-wrapper">
-              <label htmlFor="fileDiv">Imagem do prato</label>
-              <div id="fileDiv">
-                <label htmlFor="file"><FiUpload/>Selecione a imagem</label>
-                <input type="file" id="file" className="file-input" onChange={handleChooseFile}/>
+        loading ? (
+            <div className="loading"></div>
+          ) : (
+          data &&
+          <main>
+          <Form>
+            <h2>Editar prato</h2>
+            <div className="info">
+              <div className="input-wrapper">
+                <label htmlFor="fileDiv">Imagem do prato</label>
+                <div id="fileDiv">
+                  <label htmlFor="file"><FiUpload/>Selecione a imagem</label>
+                  <input type="file" id="file" className="file-input" onChange={handleChooseFile}/>
+                </div>
+              </div>
+              <div className="input-wrapper">
+                <label htmlFor="name">Nome</label>
+                <Input type="text" id="name" placeholder={data.title} onChange={e => setTitle(e.target.value)} />
+              </div>
+              <div className="input-wrapper">
+                <label htmlFor="category">Categoria</label>
+                <Select id="category" icon={FiChevronDown} category={data.category} onChange={e => setCategory(e.target.value)}/>
+              </div>
+            </div>
+            <div className="info-2">
+              <div className="input-wrapper">
+                <label htmlFor="ingredients">Ingredientes</label>
+                <div id="ingredients" className="ingredients">
+                {
+                  ingredients.map((ingredient, index) => (<IngredientItem key={String(index)} value={ingredient} onClick={() => handleRemoveIngredient(ingredient)}/>))
+                }
+                <IngredientItem isNew placeholder="Adicionar" onChange={e => setNewIngredient(e.target.value)} value={newIngredient} onClick={handleAddIngredient}/>
+                </div>
+              </div>
+              <div className="input-wrapper">
+                <label htmlFor="price">Preço</label>
+                <Input id="price" type="number" placeholder={`R$ ${data.price}`} onChange={handleChangePrice} />
               </div>
             </div>
             <div className="input-wrapper">
-              <label htmlFor="name">Nome</label>
-              <Input type="text" id="name" placeholder={data.title} onChange={e => setTitle(e.target.value)} />
+              <label htmlFor="description">Descrição</label>
+              <Textarea id="description" placeholder={data.description} onChange={e => setDescription(e.target.value)} />
             </div>
-            <div className="input-wrapper">
-              <label htmlFor="category">Categoria</label>
-              <Select id="category" icon={FiChevronDown} category={data.category} onChange={e => setCategory(e.target.value)}/>
+            <div className="buttons">
+              <Button className="delete" title="Excluir prato" onClick={handleDelete} />
+              <Button className="save" title="Salvar alterações" onClick={handleUpdate} />
             </div>
-          </div>
-          <div className="info-2">
-            <div className="input-wrapper">
-              <label htmlFor="ingredients">Ingredientes</label>
-              <div id="ingredients" className="ingredients">
-              {
-                ingredients.map((ingredient, index) => (<IngredientItem key={String(index)} value={ingredient} onClick={() => handleRemoveIngredient(ingredient)}/>))
-              }
-              <IngredientItem isNew placeholder="Adicionar" onChange={e => setNewIngredient(e.target.value)} value={newIngredient} onClick={handleAddIngredient}/>
-              </div>
-            </div>
-            <div className="input-wrapper">
-              <label htmlFor="price">Preço</label>
-              <Input id="price" type="number" placeholder={`R$ ${data.price}`} onChange={handleChangePrice} />
-            </div>
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="description">Descrição</label>
-            <Textarea id="description" placeholder={data.description} onChange={e => setDescription(e.target.value)} />
-          </div>
-          <div className="buttons">
-            <Button className="delete" title="Excluir prato" onClick={handleDelete} />
-            <Button className="save" title="Salvar alterações" onClick={handleUpdate} />
-          </div>
-        </Form>
-      </main>
+          </Form>
+        </main>
+        )
       }
       <Footer/>
     </Container>
